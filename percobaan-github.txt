@@ -1,0 +1,6 @@
+PERCOBAAN GITHUB - WEBSITE KPI
+
+File ini dibuat untuk menguji proses Git di VS Code.
+
+Status: Percobaan pertama berhasil dibuat.
+Tanggal: 15 Oktober 2026.
