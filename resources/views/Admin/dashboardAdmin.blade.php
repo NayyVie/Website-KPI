@@ -729,17 +729,17 @@
 
         .score-high {
             background: #e1f3e9;
-            color: #087e58;
+            color: #14653A;
         }
 
         .score-medium {
             background: #fff0db;
-            color: #a76514;
+            color: #8A4B08;
         }
 
         .score-low {
             background: #fce6e6;
-            color: #c44545;
+            color: #A4231B;
         }
 
         .score-empty {
@@ -1073,7 +1073,8 @@
                     <tbody id="unitTableBody">
 
                         <tr data-unit="Ampana">
-                            <td class="unit-name">Ampana</td>
+                            <td> <a href="{{ route('admin.unit.verifikasi', ['unit' => 'ampana']) }}"
+                                    class="unit-name">Ampana</a></td>
                             <td>3.8</td>
                             <td>91</td>
                             <td><span class="score-badge">3.7</span></td>
@@ -1250,7 +1251,7 @@
                             <th class="area-column">Area</th>
                             <th class="subarea-column">Sub area</th>
 
-                            <th class="unit-column"><span>Banjar Sari</span></th>
+                            <th class="unit-column"><span>Banjarsari</span></th>
                             <th class="unit-column"><span>Asahan</span></th>
                             <th class="unit-column"><span>Belitung</span></th>
                             <th class="unit-column"><span>Bangka</span></th>
@@ -1624,22 +1625,22 @@
     </div>
 
     <script>
-        // TEMA GELAP
-        const themeButton = document.getElementById('themeButton');
-        const themeLabel = document.getElementById('themeLabel');
-        const themeIcon = document.getElementById('themeIcon');
+        // // TEMA GELAP
+        // const themeButton = document.getElementById('themeButton');
+        // const themeLabel = document.getElementById('themeLabel');
+        // const themeIcon = document.getElementById('themeIcon');
 
-        themeButton.addEventListener('click', function() {
-            document.body.classList.toggle('dark');
+        // themeButton.addEventListener('click', function() {
+        //     document.body.classList.toggle('dark');
 
-            const isDark = document.body.classList.contains('dark');
+        //     const isDark = document.body.classList.contains('dark');
 
-            themeLabel.textContent = isDark ?
-                'Gunakan tema terang' :
-                'Gunakan tema gelap';
+        //     themeLabel.textContent = isDark ?
+        //         'Gunakan tema terang' :
+        //         'Gunakan tema gelap';
 
-            themeIcon.textContent = isDark ? '☀' : '◐';
-        });
+        //     themeIcon.textContent = isDark ? '☀' : '◐';
+        // });
 
         // PENCARIAN UNIT
         const searchInput = document.getElementById('searchUnit');

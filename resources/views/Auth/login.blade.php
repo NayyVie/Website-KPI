@@ -52,7 +52,7 @@
         /* SISI KIRI: FOTO BACKGROUND MILIKMU */
 
         .login-visual {
-            flex: 0 0 42%;
+            flex: 1 0 42%;
             min-width: 0;
             position: relative;
             overflow: hidden;
@@ -66,58 +66,6 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-
-
-        .visual-content {
-            position: relative;
-            z-index: 2;
-            padding: clamp(28px, 4vw, 58px);
-            color: #fff;
-            max-width: 650px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 48px;
-        }
-
-        .brand-logo {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .brand-name {
-            font-size: 19px;
-            line-height: 1.35;
-            font-weight: 700;
-        }
-
-        .brand-subtitle {
-            font-size: 11px;
-            font-weight: 400;
-            letter-spacing: 0.3px;
-        }
-
-        .visual-content h1 {
-            font-size: clamp(27px, 3vw, 43px);
-            line-height: 1.3;
-            font-weight: 700;
-            letter-spacing: -0.8px;
-            max-width: 500px;
-            text-shadow: 0 2px 14px rgba(0, 40, 75, 0.15);
-        }
-
-        .visual-content p {
-            margin-top: 15px;
-            max-width: 390px;
-            font-size: 13px;
-            line-height: 1.8;
-            color: #f1fbff;
         }
 
         /*
@@ -146,8 +94,6 @@
 
 
         /* SISI KANAN: TANPA PEMBATAS KAKU */
-
-
         /* Sidebar kiri tetap menggunakan foto yang sudah ada */
         .login-visual {
             flex: 0 0 42%;
@@ -229,34 +175,6 @@
             z-index: 2;
             width: 100%;
             max-width: 390px;
-        }
-
-
-        .form-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 22px;
-        }
-
-        .form-brand img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-        }
-
-        .form-brand strong {
-            display: block;
-            color: var(--navy);
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .form-brand span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 2px;
         }
 
         .form-heading {
@@ -465,11 +383,6 @@
             transform: none;
         }
 
-        .button-arrow {
-            font-size: 18px;
-            line-height: 1;
-        }
-
         .register-text {
             text-align: center;
             margin-top: 17px;
@@ -566,14 +479,6 @@
                 flex-basis: 48%;
             }
 
-            .visual-content {
-                padding: 30px;
-            }
-
-            .visual-content h1 {
-                font-size: 29px;
-            }
-
             .login-side {
                 padding: 32px 25px;
             }
@@ -632,7 +537,7 @@
 
         @media (max-height: 720px) and (min-width: 701px) {
             body {
-                padding: 12px;
+                padding: 0px;
             }
 
             .login-container {
@@ -640,21 +545,9 @@
                 min-height: 580px;
             }
 
-            .visual-content {
-                padding: 30px;
-            }
-
-            .brand {
-                margin-bottom: 30px;
-            }
-
             .login-side {
                 padding-top: 22px;
                 padding-bottom: 22px;
-            }
-
-            .form-brand {
-                margin-bottom: 14px;
             }
 
             .form-description {
@@ -687,6 +580,190 @@
                 animation-duration: 0.01ms !important;
             }
         }
+
+
+        /* =========================================
+   LOGIN - LAYOUT MENYATU
+   ========================================= */
+
+        .login-container {
+            display: grid;
+            grid-template-columns: minmax(0, 68%) minmax(340px, 32%);
+            width: calc(100% - 24px);
+            min-height: 620px;
+            height: calc(100vh - 24px);
+            max-height: 900px;
+            margin: 12px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #eafaff;
+            box-shadow: 0 12px 40px rgba(0, 88, 130, 0.12);
+        }
+
+        /* BAGIAN KIRI: PERTAHANKAN BACKGROUND FOTO */
+        .login-left {
+            position: relative;
+            min-width: 0;
+            min-height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Gradasi transparan agar foto menyatu dengan panel kanan */
+        .login-left::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 20%;
+            pointer-events: none;
+            background: linear-gradient(to right,
+                    rgba(237, 251, 255, 0),
+                    rgba(237, 251, 255, 0.18),
+                    rgba(237, 251, 255, 0.85));
+        }
+
+        /* BAGIAN KANAN: PANEL FORM */
+        .login-right {
+            position: relative;
+            z-index: 2;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 24px;
+
+            background: linear-gradient(145deg,
+                    rgba(250, 254, 255, 0.97),
+                    rgba(235, 250, 253, 0.96));
+
+            border: 2px solid #b8edf5;
+            border-left: 3px solid #a3e9f2;
+            border-radius: 34px 22px 22px 34px;
+
+            margin-left: -18px;
+            box-shadow: -12px 0 30px rgba(0, 159, 193, 0.08);
+        }
+
+        /* Kotak pembatas dalam untuk area form */
+        .login-right::before {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(0, 173, 202, 0.12);
+            border-radius: 27px 16px 16px 27px;
+            pointer-events: none;
+        }
+
+        /* Isi form tetap berada di atas ornamen */
+        .login-right>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Lebar konten form, bukan lebar panel */
+        .login-form,
+        .login-content,
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            min-width: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Input tetap seperti desain sebelumnya */
+        .login-right input:not([type="checkbox"]),
+        .login-right select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Ornamen lengkung biru muda di sudut kanan bawah */
+        .login-right::after {
+            content: "";
+            position: absolute;
+            width: 210px;
+            height: 150px;
+            right: -75px;
+            bottom: -85px;
+            border: 12px solid rgba(0, 177, 205, 0.09);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* TABLET */
+        @media (max-width: 900px) {
+            .login-container {
+                grid-template-columns: minmax(0, 58%) minmax(320px, 42%);
+            }
+
+            .login-right {
+                padding: 24px 18px;
+            }
+
+            .login-form,
+            .login-content,
+            .login-card {
+                max-width: 360px;
+            }
+        }
+
+        /* HP */
+        @media (max-width: 650px) {
+            .login-container {
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 20px);
+                height: auto;
+                min-height: calc(100vh - 20px);
+                max-height: none;
+                margin: 10px auto;
+                overflow: hidden;
+                border-radius: 20px;
+            }
+
+            .login-left {
+                min-height: 220px;
+                height: 220px;
+                flex-shrink: 0;
+            }
+
+            .login-left::after {
+                width: 100%;
+                height: 35%;
+                top: auto;
+                background: linear-gradient(to bottom,
+                        transparent,
+                        rgba(237, 251, 255, 0.8));
+            }
+
+            .login-right {
+                flex: 1;
+                margin-left: 0;
+                margin-top: -16px;
+                padding: 28px 20px;
+                border: 2px solid #b8edf5;
+                border-radius: 25px 25px 18px 18px;
+            }
+
+            .login-right::before {
+                border-radius: 19px;
+            }
+
+            .login-form,
+            .login-content,
+            .login-card {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -696,51 +773,17 @@
 
         <!-- SISI KIRI -->
         <section class="login-visual">
-            <div class="visual-content">
 
-                <div class="brand">
-                    <!-- Ganti dengan lokasi logo milikmu -->
-                    {{-- <img class="brand-logo" src="{{ asset('assets/images/backgroundKPI.png') }}" alt="Logo PLN"> --}}
-
-                    {{-- <div>
-                        <div class="brand-name">PLN</div>
-                        <div class="brand-subtitle">
-                            Nusantara Power Services
-                        </div>
-                    </div> --}}
-                </div>
-
-                {{-- <h1>
-                    Grow Performance,<br>
-                    Power Excellence
-                </h1> --}}
-
-                {{-- <p>
-                    Platform pengelolaan material untuk mendukung
-                    pelaporan, pemeriksaan, dan pengembalian
-                    Ex Barang secara terstruktur.
-                </p> --}}
-
-            </div>
         </section>
 
         <!-- SISI KANAN -->
         <section class="login-side">
             <div class="login-form">
 
-                <div class="form-brand">
-                    <img src="#" alt="Logo PLN">
-
-                    <div>
-                        <strong>PLN Nusantara Power Services</strong>
-                        <span>Logistic &amp; System</span>
-                    </div>
-                </div>
-
                 <h2 class="form-heading">Selamat Datang</h2>
 
                 <p class="form-description">
-                    Masuk untuk mengakses sistem pengelolaan Ex Barang.
+                    Masuk untuk mengakses sistem KPI
                 </p>
 
                 <form action="#" method="POST">
@@ -750,18 +793,18 @@
 
                     <div class="role-switch">
                         <label class="role-option">
-                            <input type="radio" name="role" value="teknisi" checked>
-                            <span>Teknisi</span>
+                            <input type="radio" name="role" value="unit" checked>
+                            <span>Unit</span>
                         </label>
 
                         <label class="role-option">
-                            <input type="radio" name="role" value="admin_gudang">
-                            <span>Admin Gudang</span>
+                            <input type="radio" name="role" value="admin">
+                            <span>Admin</span>
                         </label>
                     </div>
 
 
-                    <!-- PILIHAN UNIT: MUNCUL HANYA UNTUK TEKNISI -->
+                    <!-- PILIHAN UNIT: MUNCUL HANYA UNTUK UNIT -->
                     <div class="form-group" id="unit-group">
                         <label for="unit" class="field-label">
                             Unit Kerja
@@ -780,16 +823,19 @@
 
                         <datalist id="unit-options">
                             <!-- Ganti contoh berikut dengan daftar unit resmi PLN NPS -->
-                            <option value="Unit Surabaya">
-                            <option value="Unit Jakarta">
-                            <option value="Unit Bandung">
-                            <option value="Unit Semarang">
-                            <option value="Unit Yogyakarta">
-                            <option value="Unit Malang">
-                            <option value="Unit Bali">
-                            <option value="Unit Makassar">
-                            <option value="Unit Medan">
-                            <option value="Unit Palembang">
+                            <option value="Unit Ampana">
+                            <option value="Unit Amurang">
+                            <option value="Unit Anggrek">
+                            <option value="Unit Asahan">
+                            <option value="Unit Bangka">
+                            <option value="Unit Banjarsari">
+                            <option value="Unit Belitung">
+                            <option value="Unit Bolok">
+                            <option value="Unit Kendari">
+                            <option value="Unit Ketapang">
+                            <option value="Unit Ropa">
+                            <option value="Unit Tembilahan">
+                            <option value="Unit Tidore">
                         </datalist>
 
                         <p class="unit-hint">
@@ -858,7 +904,6 @@
 
                     <button class="login-button" type="submit">
                         <span>Masuk ke Dashboard</span>
-                        <span class="button-arrow" aria-hidden="true">→</span>
                     </button>
 
                     <p class="register-text">
@@ -871,8 +916,8 @@
                 </form>
 
                 <div class="form-footer">
-                    <span>PLN Nusantara Power Services · Logistic &amp; System</span>
-                    <span>Ex Barang System</span>
+                    <span>PLN Nusantara Power Services</span>
+                    <span>Logistic &amp; System</span>
                 </div>
 
             </div>
@@ -951,6 +996,51 @@
             });
         }
     </script>
+
+    <script>
+        // Mengatur kolom Unit Kerja berdasarkan workspace yang dipilih
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleInputs = document.querySelectorAll(
+                'input[name="role"]'
+            );
+
+            const unitGroup = document.getElementById('unit-group');
+            const unitInput = document.getElementById('unit');
+
+            function updateRoleFields() {
+                const selectedRole = document.querySelector(
+                    'input[name="role"]:checked'
+                );
+
+                if (!selectedRole || !unitGroup || !unitInput) {
+                    return;
+                }
+
+                // Kolom Unit Kerja hanya muncul ketika memilih Unit
+                const isUnit = selectedRole.value === 'unit';
+
+                unitGroup.hidden = !isUnit;
+
+                // Unit wajib diisi hanya untuk workspace Unit
+                unitInput.required = isUnit;
+                unitInput.disabled = !isUnit;
+
+                // Kosongkan pilihan Unit ketika memilih Admin
+                if (!isUnit) {
+                    unitInput.value = '';
+                }
+            }
+
+            // Jalankan ketika pilihan workspace berubah
+            roleInputs.forEach(function(radio) {
+                radio.addEventListener('change', updateRoleFields);
+            });
+
+            // Sesuaikan tampilan saat halaman pertama kali dibuka
+            updateRoleFields();
+        });
+    </script>
+
 
 </body>
 
