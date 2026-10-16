@@ -704,27 +704,27 @@
             color: var(--text);
         }
 
+
         .score-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             width: 100%;
             min-width: 63px;
             min-height: 30px;
+            padding: 5px;
+
             border: 1px solid transparent;
             border-radius: 6px;
+
             font-family: inherit;
             font-size: 10px;
             font-weight: 600;
-            cursor: pointer;
-            transition: transform .15s, border-color .15s;
-        }
+            text-align: center;
 
-        .score-cell:hover {
-            transform: scale(1.04);
-            border-color: var(--primary);
-        }
-
-        .score-cell:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
+            cursor: default;
+            user-select: text;
         }
 
         .score-high {
@@ -1267,267 +1267,267 @@
                         <tr>
                             <td class="area-cell">Inventory</td>
                             <td class="subarea-cell">Catalogue</td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Banjar Sari" data-score="0.8">0.8</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Asahan" data-score="1.1">1.1</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Belitung" data-score="1.4">1.4</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Bangka" data-score="1.7">1.7</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Tembilahan" data-score="2.0">2.0</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Ketapang" data-score="2.3">2.3</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Amurang" data-score="2.6">2.6</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Catalogue"
-                                    data-unit="Tidore" data-score="2.9">2.9</button></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Banjar Sari" data-score="0.8">0.8</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Asahan" data-score="1.1">1.1</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Belitung" data-score="1.4">1.4</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Bangka" data-score="1.7">1.7</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Tembilahan" data-score="2.0">2.0</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Ketapang" data-score="2.3">2.3</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Amurang" data-score="2.6">2.6</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Catalogue"
+                                    data-unit="Tidore" data-score="2.9">2.9</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Inventory</td>
                             <td class="subarea-cell">Mengelola Permintaan Penyediaan Barang dan Jasa</td>
-                            <td><button class="score-cell" data-area="Inventory"
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa"
-                                    data-unit="Banjar Sari" data-score="1.5">1.5</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-unit="Banjar Sari" data-score="1.5">1.5</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa" data-unit="Asahan"
-                                    data-score="1.8">1.8</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="1.8">1.8</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa"
-                                    data-unit="Belitung" data-score="2.1">2.1</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-unit="Belitung" data-score="2.1">2.1</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa" data-unit="Bangka"
-                                    data-score="2.4">2.4</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="2.4">2.4</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa"
-                                    data-unit="Tembilahan" data-score="2.7">2.7</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-unit="Tembilahan" data-score="2.7">2.7</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa"
-                                    data-unit="Ketapang" data-score="3.0">3.0</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-unit="Ketapang" data-score="3.0">3.0</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa" data-unit="Amurang"
-                                    data-score="3.3">3.3</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="3.3">3.3</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Mengelola Permintaan Penyediaan Barang dan Jasa" data-unit="Tidore"
-                                    data-score="3.6">3.6</button></td>
+                                    data-score="3.6">3.6</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Inventory</td>
                             <td class="subarea-cell">Setting Minimum Stock</td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Banjar Sari" data-score="2.2">2.2</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Asahan" data-score="2.5">2.5</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Belitung" data-score="2.8">2.8</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Bangka" data-score="3.1">3.1</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Tembilahan" data-score="3.4">3.4</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Ketapang" data-score="3.7">3.7</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Amurang" data-score="4.0">4.0</button></td>
-                            <td><button class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
-                                    data-unit="Tidore" data-score="4.3">4.3</button></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Banjar Sari" data-score="2.2">2.2</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Asahan" data-score="2.5">2.5</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Belitung" data-score="2.8">2.8</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Bangka" data-score="3.1">3.1</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Tembilahan" data-score="3.4">3.4</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Ketapang" data-score="3.7">3.7</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Amurang" data-score="4.0">4.0</span></td>
+                            <td><span class="score-cell" data-area="Inventory" data-subarea="Setting Minimum Stock"
+                                    data-unit="Tidore" data-score="4.3">4.3</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Inventory</td>
                             <td class="subarea-cell">Persediaan dan Perputaran Material</td>
-                            <td><button class="score-cell" data-area="Inventory"
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Banjar Sari"
-                                    data-score="2.9">2.9</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="2.9">2.9</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Asahan"
-                                    data-score="3.2">3.2</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="3.2">3.2</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Belitung"
-                                    data-score="3.5">3.5</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="3.5">3.5</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Bangka"
-                                    data-score="3.8">3.8</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="3.8">3.8</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Tembilahan"
-                                    data-score="4.1">4.1</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="4.1">4.1</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Ketapang"
-                                    data-score="4.4">4.4</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="4.4">4.4</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Amurang"
-                                    data-score="4.7">4.7</button></td>
-                            <td><button class="score-cell" data-area="Inventory"
+                                    data-score="4.7">4.7</span></td>
+                            <td><span class="score-cell" data-area="Inventory"
                                     data-subarea="Persediaan dan Perputaran Material" data-unit="Tidore"
-                                    data-score="0.9">0.9</button></td>
+                                    data-score="0.9">0.9</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Procurement</td>
                             <td class="subarea-cell">Mengevaluasi dan Membina Kinerja Penyedia</td>
-                            <td><button class="score-cell" data-area="Procurement"
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Banjar Sari"
-                                    data-score="3.6">3.6</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="3.6">3.6</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Asahan"
-                                    data-score="3.9">3.9</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="3.9">3.9</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Belitung"
-                                    data-score="4.2">4.2</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="4.2">4.2</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Bangka"
-                                    data-score="4.5">4.5</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="4.5">4.5</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Tembilahan"
-                                    data-score="4.8">4.8</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="4.8">4.8</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Ketapang"
-                                    data-score="1.0">1.0</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="1.0">1.0</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Amurang"
-                                    data-score="1.3">1.3</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="1.3">1.3</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Mengevaluasi dan Membina Kinerja Penyedia" data-unit="Tidore"
-                                    data-score="1.6">1.6</button></td>
+                                    data-score="1.6">1.6</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Procurement</td>
                             <td class="subarea-cell">Monitoring, Pengendalian dan Purchase Effectiveness</td>
-                            <td><button class="score-cell" data-area="Procurement"
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
                                     data-unit="Banjar Sari" data-score="4.3">4.3</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Asahan" data-score="4.6">4.6</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Asahan" data-score="4.6">4.6</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Belitung" data-score="0.8">0.8</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Belitung" data-score="0.8">0.8</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Bangka" data-score="1.1">1.1</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Bangka" data-score="1.1">1.1</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Tembilahan" data-score="1.4">1.4</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Tembilahan" data-score="1.4">1.4</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Ketapang" data-score="1.7">1.7</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Ketapang" data-score="1.7">1.7</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Amurang" data-score="2.0">2.0</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-unit="Amurang" data-score="2.0">2.0</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Monitoring, Pengendalian dan Purchase Effectiveness"
-                                    data-unit="Tidore" data-score="2.3">2.3</button></td>
+                                    data-unit="Tidore" data-score="2.3">2.3</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Procurement</td>
                             <td class="subarea-cell">Implementasi Sistem Kontrak Payung</td>
-                            <td><button class="score-cell" data-area="Procurement"
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Banjar Sari"
-                                    data-score="0.9">0.9</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="0.9">0.9</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Asahan"
-                                    data-score="1.2">1.2</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="1.2">1.2</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Belitung"
-                                    data-score="1.5">1.5</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="1.5">1.5</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Bangka"
-                                    data-score="1.8">1.8</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="1.8">1.8</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Tembilahan"
-                                    data-score="2.1">2.1</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="2.1">2.1</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Ketapang"
-                                    data-score="2.4">2.4</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="2.4">2.4</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Amurang"
-                                    data-score="2.7">2.7</button></td>
-                            <td><button class="score-cell" data-area="Procurement"
+                                    data-score="2.7">2.7</span></td>
+                            <td><span class="score-cell" data-area="Procurement"
                                     data-subarea="Implementasi Sistem Kontrak Payung" data-unit="Tidore"
-                                    data-score="3.0">3.0</button></td>
+                                    data-score="3.0">3.0</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Gudang</td>
                             <td class="subarea-cell">Pengelolaan Penerimaan dan Pengeluaran Barang</td>
-                            <td><button class="score-cell" data-area="Gudang"
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang"
-                                    data-unit="Banjar Sari" data-score="1.6">1.6</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-unit="Banjar Sari" data-score="1.6">1.6</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Asahan"
-                                    data-score="1.9">1.9</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="1.9">1.9</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Belitung"
-                                    data-score="2.2">2.2</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="2.2">2.2</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Bangka"
-                                    data-score="2.5">2.5</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="2.5">2.5</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang"
-                                    data-unit="Tembilahan" data-score="2.8">2.8</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-unit="Tembilahan" data-score="2.8">2.8</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Ketapang"
-                                    data-score="3.1">3.1</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="3.1">3.1</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Amurang"
-                                    data-score="3.4">3.4</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="3.4">3.4</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Pengelolaan Penerimaan dan Pengeluaran Barang" data-unit="Tidore"
-                                    data-score="3.7">3.7</button></td>
+                                    data-score="3.7">3.7</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Gudang</td>
                             <td class="subarea-cell">Administrasi &amp; Pengelolaan Barang</td>
-                            <td><button class="score-cell" data-area="Gudang"
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Banjar Sari"
-                                    data-score="2.3">2.3</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="2.3">2.3</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Asahan"
-                                    data-score="2.6">2.6</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="2.6">2.6</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Belitung"
-                                    data-score="2.9">2.9</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="2.9">2.9</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Bangka"
-                                    data-score="3.2">3.2</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="3.2">3.2</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Tembilahan"
-                                    data-score="3.5">3.5</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="3.5">3.5</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Ketapang"
-                                    data-score="3.8">3.8</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="3.8">3.8</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Amurang"
-                                    data-score="4.1">4.1</button></td>
-                            <td><button class="score-cell" data-area="Gudang"
+                                    data-score="4.1">4.1</span></td>
+                            <td><span class="score-cell" data-area="Gudang"
                                     data-subarea="Administrasi & Pengelolaan Barang" data-unit="Tidore"
-                                    data-score="4.4">4.4</button></td>
+                                    data-score="4.4">4.4</span></td>
                         </tr>
 
                         <tr>
                             <td class="area-cell">Gudang</td>
                             <td class="subarea-cell">Stock Opname</td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Banjar Sari" data-score="3.0">3.0</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Asahan" data-score="3.3">3.3</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Belitung" data-score="3.6">3.6</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Bangka" data-score="3.9">3.9</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Tembilahan" data-score="4.2">4.2</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Ketapang" data-score="4.5">4.5</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Amurang" data-score="4.8">4.8</button></td>
-                            <td><button class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
-                                    data-unit="Tidore" data-score="1.0">1.0</button></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Banjar Sari" data-score="3.0">3.0</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Asahan" data-score="3.3">3.3</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Belitung" data-score="3.6">3.6</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Bangka" data-score="3.9">3.9</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Tembilahan" data-score="4.2">4.2</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Ketapang" data-score="4.5">4.5</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Amurang" data-score="4.8">4.8</span></td>
+                            <td><span class="score-cell" data-area="Gudang" data-subarea="Stock Opname"
+                                    data-unit="Tidore" data-score="1.0">1.0</span></td>
                         </tr>
 
                     </tbody>
@@ -1817,10 +1817,11 @@
 
     <script>
         /* WARNA SKOR OTOMATIS */
-        document.querySelectorAll('.score-cell').forEach(function(button) {
-            const score = Number(button.dataset.score);
 
-            button.classList.remove(
+        document.querySelectorAll('.score-cell').forEach(function(element) {
+            const score = Number(element.dataset.score);
+
+            element.classList.remove(
                 'score-high',
                 'score-medium',
                 'score-low',
@@ -1828,13 +1829,14 @@
             );
 
             if (score >= 3.6) {
-                button.classList.add('score-high');
-            } else if (score >= 2 && score < s 3.6) {
-                button.classList.add('score-medium');
+                element.classList.add('score-high');
+            } else if (score >= 2 && score < 3.6) {
+                element.classList.add('score-medium');
             } else {
-                button.classList.add('score-low');
+                element.classList.add('score-low');
             }
         });
+
 
         /* MODAL DETAIL SCORE ML */
         const scoreModal = document.getElementById('scoreDetailModal');

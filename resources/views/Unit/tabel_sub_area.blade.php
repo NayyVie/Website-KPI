@@ -91,7 +91,7 @@
             <!-- Baris 8 -->
             <tr>
                 <td>8</td>
-                <>
+                <td>
                     <strong>Pengelolaan Penerimaan dan Pengeluaran Barang</strong><br>
                     <small>Gudang · 4.2.5.1</small>
                 </td>
