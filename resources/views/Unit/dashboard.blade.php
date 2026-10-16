@@ -304,7 +304,6 @@
         <div class="header-right">
             <button class="btn-outline">Riwayat KPI</button>
             <button class="btn-outline">Keluar</button>
-            <button class="btn-outline">Gunakan tema gelap</button>
         </div>
     </div>
 

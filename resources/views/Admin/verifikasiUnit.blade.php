@@ -80,8 +80,7 @@
             color: var(--muted);
         }
 
-        .top-actions select,
-        .theme-btn {
+        .top-actions select {
             min-height: 39px;
             padding: 0 13px;
             border: 1px solid var(--border);
@@ -93,10 +92,6 @@
         .top-actions select:focus {
             outline: 2px solid rgba(0, 159, 193, .25);
             border-color: var(--blue);
-        }
-
-        .theme-btn:hover {
-            background: #edfaff;
         }
 
         .layout {
@@ -489,46 +484,6 @@
             color: var(--muted);
         }
 
-        body.dark {
-            --navy: #e3effa;
-            --muted: #a5b7c9;
-            --border: #344b62;
-            --bg: #102337;
-            background: var(--bg);
-        }
-
-        body.dark .subarea-panel,
-        body.dark .detail-panel,
-        body.dark .criterion,
-        body.dark .note-input,
-        body.dark .top-actions select,
-        body.dark .theme-btn,
-        body.dark .file-button,
-        body.dark .level-option {
-            background: #192f45;
-            color: var(--navy);
-        }
-
-        body.dark .score-card,
-        body.dark .upload-box,
-        body.dark .empty-criteria,
-        body.dark .subarea-link.active {
-            background: #203950;
-        }
-
-        body.dark .subarea-link {
-            color: var(--navy);
-        }
-
-        body.dark .level-option.active {
-            background: #0879b8;
-        }
-
-        body.dark .detail-title,
-        body.dark .score-card strong {
-            color: var(--navy);
-        }
-
         @media (max-width: 900px) {
             .page {
                 padding: 20px 16px 35px;
@@ -660,11 +615,6 @@
             cursor: not-allowed;
             opacity: 0.65;
         }
-
-        body.dark .criterion-locked {
-            background: #203950;
-        }
-
 
         /* Kriteria yang belum bisa dinilai */
         .criterion.is-locked {
@@ -804,19 +754,6 @@
             display: none;
         }
 
-        body.dark .file-item {
-            background: #192f45;
-            border-color: #344b62;
-        }
-
-        body.dark .file-name {
-            color: #e3effa;
-        }
-
-        body.dark .criterion.is-locked {
-            background: #172a3d;
-        }
-
         @media (max-width: 600px) {
             .locked-message {
                 margin-left: 0;
@@ -847,10 +784,6 @@
                         </option>
                     @endforeach
                 </select>
-
-                <button class="theme-btn" id="themeToggle" type="button">
-                    Gunakan tema gelap
-                </button>
             </div>
         </header>
 
@@ -1390,17 +1323,6 @@
                 '/admin/unit/' +
                 encodeURIComponent(unitSelect.value) +
                 '/verifikasi';
-        });
-
-        // ==========================================
-        // GANTI TEMA
-        // ==========================================
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark');
-
-            this.textContent = document.body.classList.contains('dark') ?
-                'Gunakan tema terang' :
-                'Gunakan tema gelap';
         });
 
         // ==========================================
