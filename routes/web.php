@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('Auth.login');
 });
 
+// UNIT
+Route::get('/dashboardUnit', function () {
+    return view('Unit.dashboard');
+})->name('dashboardUnit');
 
 // ADMIN
 Route::get('/dashboardAdmin', function () {
