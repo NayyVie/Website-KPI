@@ -6,7 +6,7 @@
     <title>Portal Unit - Banjarsari</title>
     
     <!-- PANGGIL CSS DENGAN VITE (Tailwind + Custom Unit Style) -->
-    @vite(['resources/css/app.css', 'resources/css/unit-style.css'])
+    @vite(['resources/css/app.css'])
 </head>
 <body>
 
