@@ -57,7 +57,67 @@
                 <td><span class="badge-success">Siap</span></td>
                 <td><button class="btn-action">Tinjau</button></td>
             </tr>
-            <!-- Tambahkan baris 5-10 sesuai Gambar 2 dengan pola yang sama -->
+            <!-- Baris 5 -->
+            <tr>
+                <td>5</td>
+                <td>
+                    <strong>Mengevaluasi dan Membina Kinerja Penyedia</strong><br>
+                    <small>Procurement · 4.2.4.1</small>
+                </td>
+                <td><span class="badge-warning">Belum lengkap</span></td>
+                <td><button class="btn-action">Lengkapi</button></td>
+            </tr>
+            <!-- Baris 6 -->
+            <tr>
+                <td>6</td>
+                <td>
+                    <strong>Monitoring, Pengendalian dan Purchase Effectiveness</strong><br>
+                    <small>Procurement · 4.2.4.2</small>
+                </td>
+                <td><span class="badge-warning">Belum lengkap</span></td>
+                <td><button class="btn-action">Lengkapi</button></td>
+            </tr>
+
+            <!-- Baris 7 -->
+            <tr>
+                <td>7</td>
+                <td>
+                    <strong>Implementasi Sistem Kontrak Payung</strong><br>
+                    <small>Procurement · 4.2.4.3</small>
+                </td>
+                <td><span class="badge-warning">Siap</span></td>
+                <td><button class="btn-action">Tinjau</button></td>
+            </tr>
+            <!-- Baris 8 -->
+            <tr>
+                <td>8</td>
+                <>
+                    <strong>Pengelolaan Penerimaan dan Pengeluaran Barang</strong><br>
+                    <small>Gudang · 4.2.5.1</small>
+                </td>
+                <td><span class="badge-success">Siap</span></td>
+                <td><button class="btn-action">Tinjau</button></td>
+            </tr>
+            <!-- Baris 9 -->
+            <tr>
+                <td>9</td>
+                <td>
+                    <strong>Administrasi & Pengelolaan Barang</strong><br>
+                    <small>Gudang · 4.2.5.2</small>
+                </td>
+                <td><span class="badge-success">Siap</span></td>
+                <td><button class="btn-action">Tinjau</button></td>
+            </tr>
+            <!-- Baris 10 -->
+            <tr>
+                <td>10</td>
+                <td>
+                    <strong>Stock Opname</strong><br>
+                    <small>Gudang · 4.2.5.3</small>
+                </td>
+                <td><span class="badge-success">Siap</span></td>
+                <td><button class="btn-action">Tinjau</button></td>
+            </tr>
         </tbody>
     </table>
 </div>
