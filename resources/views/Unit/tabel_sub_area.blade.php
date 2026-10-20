@@ -17,6 +17,7 @@
             </tr>
         </thead>
         <tbody>
+
             <!-- Baris 1 -->
             <tr>
                 <td>1</td>
@@ -25,8 +26,14 @@
                     <small>Inventory · 4.2.3.1</small>
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
-                <td><button class="btn-action">Lengkapi</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 0]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Lengkapi
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 2 -->
             <tr>
                 <td>2</td>
@@ -35,8 +42,14 @@
                     <small>Inventory · 4.2.3.2</small>
                 </td>
                 <td><span class="badge-success">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 1]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 3 -->
             <tr>
                 <td>3</td>
@@ -45,8 +58,14 @@
                     <small>Inventory · 4.2.3.3</small>
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
-                <td><button class="btn-action">Lengkapi</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 2]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Lengkapi
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 4 -->
             <tr>
                 <td>4</td>
@@ -55,8 +74,14 @@
                     <small>Inventory · 4.2.3.4</small>
                 </td>
                 <td><span class="badge-success">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 3]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 5 -->
             <tr>
                 <td>5</td>
@@ -65,8 +90,14 @@
                     <small>Procurement · 4.2.4.1</small>
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
-                <td><button class="btn-action">Lengkapi</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 4]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Lengkapi
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 6 -->
             <tr>
                 <td>6</td>
@@ -75,7 +106,12 @@
                     <small>Procurement · 4.2.4.2</small>
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
-                <td><button class="btn-action">Lengkapi</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 5]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Lengkapi
+                    </a>
+                </td>
             </tr>
 
             <!-- Baris 7 -->
@@ -85,9 +121,15 @@
                     <strong>Implementasi Sistem Kontrak Payung</strong><br>
                     <small>Procurement · 4.2.4.3</small>
                 </td>
-                <td><span class="badge-warning">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td><span class="badge-success">Siap</span></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 6]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 8 -->
             <tr>
                 <td>8</td>
@@ -96,8 +138,14 @@
                     <small>Gudang · 4.2.5.1</small>
                 </td>
                 <td><span class="badge-success">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 7]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 9 -->
             <tr>
                 <td>9</td>
@@ -106,8 +154,14 @@
                     <small>Gudang · 4.2.5.2</small>
                 </td>
                 <td><span class="badge-success">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 8]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
             <!-- Baris 10 -->
             <tr>
                 <td>10</td>
@@ -116,8 +170,14 @@
                     <small>Gudang · 4.2.5.3</small>
                 </td>
                 <td><span class="badge-success">Siap</span></td>
-                <td><button class="btn-action">Tinjau</button></td>
+                <td>
+                    <a href="{{ route('unit.lengkapi', ['sub' => 9]) }}" class="btn-action"
+                        style="text-decoration:none;display:inline-block;text-align:center;">
+                        Tinjau
+                    </a>
+                </td>
             </tr>
+
         </tbody>
     </table>
 </div>

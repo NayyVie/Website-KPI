@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Verifikasi Unit | PLN NPS</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -763,6 +764,80 @@
                 align-items: flex-start;
             }
         }
+
+        /* ==========================================
+           MATURITY LEVEL (tambahan)
+           ========================================== */
+        .level-option {
+            cursor: pointer;
+            transition: background .15s, border-color .15s;
+        }
+
+        .level-option:hover:not(.active):not(.locked) {
+            background: #f2f9fc;
+            border-color: #9edce7;
+        }
+
+        .level-option .lv-score {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .level-option.active .lv-score {
+            color: #fff;
+        }
+
+        .level-option .lv-lock {
+            margin-top: 2px;
+            font-size: 8px;
+            color: #8295a6;
+        }
+
+        .level-option.locked {
+            cursor: not-allowed;
+        }
+
+        .level-caption {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .criteria-heading h3 {
+            font-size: 17px;
+            margin: 2px 0 0;
+        }
+
+        .criteria-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .upload-box {
+            display: block;
+        }
+
+        .locked-message {
+            margin: 12px 0 0;
+        }
+
+        .file-warning {
+            margin: 9px 0 0;
+            color: #c53535;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .file-warning[hidden],
+        .locked-message[hidden] {
+            display: none;
+        }
+
+        .file-button:disabled {
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -833,58 +908,37 @@
                             {{ number_format($subAreas[0]['score'] ?? 0, 1) }}
                         </strong>
                         <p id="scoreDescription">
-                            Level berikutnya terbuka setelah kriteria level
-                            sebelumnya sesuai.
+                            Level berikutnya terbuka hanya jika semua kriteria
+                            level sebelumnya sesuai.
                         </p>
                     </div>
                 </div>
 
-                <div class="level-grid" id="levelGrid">
-                    <button type="button" class="level-option active" data-level="1">
-                        <strong>≤1</strong>
-                        <span>Nilai 1.0</span>
-                    </button>
-                    <button type="button" class="level-option" data-level="2">
-                        <strong>1&lt;x≤2</strong>
-                        <span>Nilai 1.0</span>
-                    </button>
-                    <button type="button" class="level-option" data-level="3">
-                        <strong>2&lt;x≤3</strong>
-                        <span>Nilai 0.2</span>
-                    </button>
-                    <button type="button" class="level-option locked" data-level="4">
-                        <strong>3&lt;x≤4</strong>
-                        <span>Nilai 0.0 · Terkunci</span>
-                    </button>
-                    <button type="button" class="level-option locked" data-level="5">
-                        <strong>4&lt;x≤5</strong>
-                        <span>Nilai 0.0 · Terkunci</span>
-                    </button>
-                </div>
+                <div class="level-grid" id="levelGrid"></div>
 
                 <div class="criteria-heading">
                     <div>
-                        <h3 id="criteriaTitle">Level 1</h3>
-                        <p id="criteriaSubtitle">Kriteria verifikasi</p>
+                        <div class="level-caption" id="levelCaption">Level 1</div>
+                        <h3 id="criteriaTitle">Fire Fighting</h3>
                     </div>
 
-                    <div class="level-badge">
-                        Nilai level <strong id="levelScore">1.0</strong>
+                    <div class="criteria-meta">
+                        <span id="criteriaSubtitle">0 kriteria</span>
+                        <div class="level-badge">
+                            Nilai level <strong id="levelScore">0.0</strong>
+                        </div>
                     </div>
                 </div>
 
-                <form action="#" method="POST" id="verificationForm" enctype="multipart/form-data">
+                <form action="{{ route('admin.unit.verifikasi.simpan', ['unit' => request()->route('unit')]) }}"
+                    method="POST" id="verificationForm" enctype="multipart/form-data">
                     @csrf
-
-                    <input type="hidden" name="unit" value="{{ $namaUnit }}">
-                    <input type="hidden" name="sub_area" id="subAreaInput" value="{{ $subAreas[0]['nama'] ?? '' }}">
-                    <input type="hidden" name="level" id="levelInput" value="1">
 
                     <div id="criteriaContainer"></div>
 
                     <div class="save-row">
                         <button type="button" class="theme-btn" id="resetButton">Reset pilihan</button>
-                        <button type="submit" class="save-button">
+                        <button type="submit" class="save-button" id="saveButton">
                             Simpan verifikasi →
                         </button>
                     </div>
@@ -897,34 +951,113 @@
         // ==========================================
         // DATA DARI LARAVEL
         // ==========================================
-        const subAreas = @json($subAreas);
+        const levels = @json($levels);       // [{nama, range}, ...] -> index 0 = Level 1
+        const subAreas = @json($subAreas);   // tiap sub area: kriteria[level-1][], tersimpan[level-1][]
+        const MAX_SCORE = levels.length;
 
         const unitSelect = document.getElementById('unitSelect');
         const subareaList = document.getElementById('subareaList');
+        const levelGrid = document.getElementById('levelGrid');
         const criteriaContainer = document.getElementById('criteriaContainer');
+        const verificationForm = document.getElementById('verificationForm');
 
-        let selectedIndex = 0;
-        let selectedLevel = 1;
+        let selectedIndex = 0; // sub area aktif
+        let selectedLevel = 1; // level aktif (1..5)
 
-        // Menyimpan pilihan admin selama halaman masih terbuka.
+        // Menyimpan pilihan verifikator selama halaman masih terbuka.
         const savedChoices = {};
 
-        function getKey(index) {
-            return selectedIndex + '-' + selectedLevel + '-' + index;
+        // ==========================================
+        // STATE PER KRITERIA
+        // ==========================================
+        function stateKey(si, level, i) {
+            return si + '-' + level + '-' + i;
         }
 
-        function getState(index) {
-            const key = getKey(index);
+        function getState(si, level, i) {
+            const key = stateKey(si, level, i);
 
             if (!savedChoices[key]) {
+                // Isi awal dari data tersimpan (nanti berasal dari database).
+                const stored = Boolean(subAreas[si]?.tersimpan?.[level - 1]?.[i]);
+
                 savedChoices[key] = {
-                    choice: '',
+                    choice: stored ? 'sesuai' : '',
                     note: '',
-                    files: []
+                    files: stored ? [{ name: 'Bukti tersimpan', size: null, stored: true }] : []
                 };
             }
 
             return savedChoices[key];
+        }
+
+        function criteriaOf(si, level) {
+            return subAreas[si]?.kriteria?.[level - 1] || [];
+        }
+
+        // Kriteria lolos jika Sesuai DAN ada lampiran.
+        function isPassed(si, level, i) {
+            const state = getState(si, level, i);
+            return state.choice === 'sesuai' && state.files.length > 0;
+        }
+
+        // ==========================================
+        // HITUNG LEVEL (ATURAN UTAMA MATURITY LEVEL)
+        // ==========================================
+        // - Kriteria n terbuka jika level terbuka & kriteria 1..n-1 lolos.
+        // - Nilai level = kriteria lolos / total kriteria level.
+        // - Level berikutnya terbuka jika SEMUA kriteria level ini lolos.
+        function computeLevels(si) {
+            const result = [];
+            let levelOpen = true;
+
+            levels.forEach((lv, idx) => {
+                const level = idx + 1;
+                const total = criteriaOf(si, level).length;
+                const criteria = [];
+                let chainOk = true;
+                let count = 0;
+
+                for (let i = 0; i < total; i++) {
+                    const unlocked = levelOpen && chainOk;
+                    const passed = unlocked && isPassed(si, level, i);
+
+                    criteria.push({ unlocked, passed });
+
+                    if (passed) {
+                        count++;
+                    } else {
+                        chainOk = false;
+                    }
+                }
+
+                const complete = total > 0 && count === total;
+
+                result.push({
+                    level,
+                    total,
+                    count,
+                    criteria,
+                    unlocked: levelOpen,
+                    complete,
+                    score: total > 0 ? count / total : 0
+                });
+
+                levelOpen = levelOpen && complete;
+            });
+
+            return result;
+        }
+
+        // Score ML sub area = jumlah nilai semua level (maks. 5).
+        // Jika sub area belum punya data kriteria, pakai skor bawaan dari server.
+        function subAreaScore(si) {
+            const hasData = levels.some((lv, idx) => criteriaOf(si, idx + 1).length > 0);
+
+            if (!hasData) return Number(subAreas[si]?.score || 0);
+
+            const sum = computeLevels(si).reduce((total, item) => total + item.score, 0);
+            return Math.min(MAX_SCORE, sum);
         }
 
         function scoreClass(score) {
@@ -933,355 +1066,6 @@
             return 'score-low';
         }
 
-        // ==========================================
-        // CEK APAKAH KRITERIA SUDAH TERPENUHI
-        // ==========================================
-        function isCriterionPassed(index) {
-            const state = getState(index);
-
-            return state.choice === 'sesuai' &&
-                state.files.length > 0;
-        }
-
-        // Indeks 1 hanya jika file tersedia dan admin
-        // memilih Sesuai. Selain itu, indeks tetap 0.
-        function getDocumentIndex(index) {
-            return isCriterionPassed(index) ? 1 : 0;
-        }
-
-        // Kriteria pertama selalu dapat dikerjakan.
-        // Kriteria berikutnya terbuka jika kriteria
-        // sebelumnya sudah Sesuai dan memiliki file.
-        function isCriterionUnlocked(index) {
-            if (index === 0) return true;
-
-            for (let i = 0; i < index; i++) {
-                if (!isCriterionPassed(i)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        // ==========================================
-        // UPDATE STATUS, INDEKS, DAN PENGUNCIAN
-        // ==========================================
-        function updateCriteriaStates() {
-            const sub = subAreas[selectedIndex];
-            const criteria = sub?.kriteria || [];
-            const cards = criteriaContainer.querySelectorAll('.criterion');
-
-            cards.forEach((card, index) => {
-                const state = getState(index);
-                const unlocked = isCriterionUnlocked(index);
-                const documentIndex = getDocumentIndex(index);
-
-                card.classList.toggle('criterion-locked', !unlocked);
-
-                // Tombol pilihan Sesuai / Tidak sesuai
-                card.querySelectorAll('input[type="radio"]').forEach(radio => {
-                    radio.disabled = !unlocked;
-                });
-
-                // Catatan verifikator
-                const note = card.querySelector('textarea');
-
-                if (note) {
-                    note.disabled = !unlocked;
-                }
-
-                // Upload lampiran
-                const fileInput = card.querySelector('input[type="file"]');
-
-                if (fileInput) {
-                    fileInput.disabled = !unlocked;
-                }
-
-                // Indeks dokumen
-                const indexValue = card.querySelector('.index-badge strong');
-
-                if (indexValue) {
-                    indexValue.textContent = documentIndex;
-                    indexValue.style.color =
-                        documentIndex === 1 ? '#087c52' : '#c33';
-                }
-
-                // Pesan kriteria terkunci seperti screenshot.
-                let lockMessage = card.querySelector('.lock-message');
-
-                if (!unlocked) {
-                    if (!lockMessage) {
-                        lockMessage = document.createElement('div');
-                        lockMessage.className = 'lock-message';
-
-                        lockMessage.style.cssText = `
-                        margin-top: 12px;
-                        padding: 9px 10px;
-                        background: #fde7e5;
-                        border-left: 2px solid #dc3545;
-                        color: #c53535;
-                        font-size: 9px;
-                        line-height: 1.7;
-                    `;
-
-                        const top = card.querySelector('.criterion-top');
-
-                        if (top) {
-                            top.insertAdjacentElement('afterend', lockMessage);
-                        }
-                    }
-
-                    lockMessage.textContent =
-                        'Indeks otomatis 0 karena kriteria sebelumnya belum terpenuhi. ' +
-                        'Selesaikan dan setujui kriteria sebelumnya untuk melanjutkan.';
-                } else if (lockMessage) {
-                    lockMessage.remove();
-                }
-
-                // Nama file yang dipilih
-                const fileDescription = card.querySelector('.file-description');
-
-                if (fileDescription) {
-                    if (state.files.length > 0) {
-                        fileDescription.textContent =
-                            state.files.map(file => file.name).join(', ');
-                    } else {
-                        fileDescription.textContent =
-                            'Semua jenis file yang diizinkan dapat dilampirkan.';
-                    }
-                }
-
-                // Tandai pilihan Sesuai yang belum memiliki file.
-                let fileWarning = card.querySelector('.file-warning');
-
-                if (unlocked &&
-                    state.choice === 'sesuai' &&
-                    state.files.length === 0) {
-
-                    if (!fileWarning) {
-                        fileWarning = document.createElement('p');
-                        fileWarning.className = 'file-warning';
-
-                        fileWarning.style.cssText = `
-                        margin: 9px 0 0;
-                        color: #c53535;
-                        font-size: 10px;
-                        line-height: 1.6;
-                    `;
-
-                        const verification = card.querySelector('.verification');
-
-                        if (verification) {
-                            verification.insertAdjacentElement(
-                                'afterend',
-                                fileWarning
-                            );
-                        }
-                    }
-
-                    fileWarning.textContent =
-                        'Lampiran bukti wajib diunggah agar indeks menjadi 1.';
-                } else if (fileWarning) {
-                    fileWarning.remove();
-                }
-            });
-
-            // Nilai level: contoh sederhana berdasarkan
-            // persentase kriteria yang sudah terpenuhi.
-            const passedCount = criteria.filter((item, index) =>
-                isCriterionPassed(index)
-            ).length;
-
-            const total = criteria.length;
-
-            const levelScore = total > 0 ?
-                (passedCount / total).toFixed(1) :
-                '0.0';
-
-            document.getElementById('levelScore').textContent = levelScore;
-
-            document.getElementById('scoreDescription').textContent =
-                total > 0 ?
-                passedCount + ' dari ' + total +
-                ' kriteria telah sesuai dan memiliki lampiran.' :
-                'Belum ada kriteria untuk sub area ini.';
-        }
-
-        // ==========================================
-        // TAMPILKAN KRITERIA
-        // ==========================================
-        function renderCriteria() {
-            const sub = subAreas[selectedIndex];
-
-            if (!sub) {
-                criteriaContainer.innerHTML = `
-                <div class="empty-criteria">
-                    Data sub area belum tersedia.
-                </div>
-            `;
-                return;
-            }
-
-            const criteria = sub.kriteria || [];
-
-            document.getElementById('detailTitle').textContent = sub.nama;
-
-            document.getElementById('breadcrumb').textContent =
-                (sub.area || 'Inventory') + ' · ' +
-                (selectedIndex + 1) + '.1.1';
-
-            document.getElementById('mainScore').textContent =
-                Number(sub.score || 0).toFixed(1);
-
-            document.getElementById('subAreaInput').value = sub.nama;
-            document.getElementById('levelInput').value = selectedLevel;
-
-            document.getElementById('criteriaTitle').textContent =
-                'Level ' + selectedLevel;
-
-            document.getElementById('criteriaSubtitle').textContent =
-                criteria.length + ' kriteria';
-
-            document.querySelectorAll('.subarea-link').forEach((button, i) => {
-                button.classList.toggle('active', i === selectedIndex);
-            });
-
-            document.querySelectorAll('.level-option').forEach(button => {
-                const level = Number(button.dataset.level);
-                button.classList.toggle('active', level === selectedLevel);
-            });
-
-            if (!criteria.length) {
-                criteriaContainer.innerHTML = `
-                <div class="empty-criteria">
-                    <strong>Data kriteria belum tersedia</strong><br>
-                    Tambahkan data kriteria pada data sub area di Laravel
-                    agar formulir verifikasi dapat ditampilkan.
-                </div>
-            `;
-
-                updateCriteriaStates();
-                return;
-            }
-
-            criteriaContainer.innerHTML = criteria.map((item, i) => {
-                const state = getState(i);
-
-                return `
-                <section class="criterion">
-                    <div class="criterion-top">
-                        <span class="number">${i + 1}</span>
-
-                        <div class="criterion-name">
-                            ${escapeHtml(item.nama)}
-                        </div>
-
-                        <span class="index-badge">
-                            Indeks dokumen
-                            <strong>0</strong>
-                        </span>
-                    </div>
-
-                    <div class="verification">
-                        <div class="choice">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="criteria[${i}][status]"
-                                    value="sesuai"
-                                    ${state.choice === 'sesuai' ? 'checked' : ''}>
-                                Sesuai
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="criteria[${i}][status]"
-                                    value="tidak"
-                                    ${state.choice === 'tidak' ? 'checked' : ''}>
-                                Tidak sesuai
-                            </label>
-                        </div>
-                    </div>
-
-                    <label class="field-label" for="note-${i}">
-                        Catatan verifikator
-                    </label>
-
-                    <textarea
-                        class="note-input"
-                        id="note-${i}"
-                        name="criteria[${i}][catatan]"
-                        rows="1"
-                        placeholder="Tambahkan catatan hasil pemeriksaan">${escapeHtml(state.note)}</textarea>
-
-                    <div class="upload-box">
-                        <div style="min-width:0;flex:1">
-                            <strong>Lampiran bukti</strong>
-
-                            <p class="file-description">
-                                ${state.files.length > 0
-                                    ? escapeHtml(state.files.map(file => file.name).join(', '))
-                                    : 'Semua jenis file yang diizinkan. Anda dapat memilih beberapa file.'}
-                            </p>
-
-                            <input
-                                class="file-input"
-                                type="file"
-                                name="criteria[${i}][lampiran][]"
-                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
-                                multiple>
-                        </div>
-                    </div>
-                </section>
-            `;
-            }).join('');
-
-            // ======================================
-            // SIMPAN CATATAN
-            // ======================================
-            criteriaContainer.querySelectorAll('textarea').forEach((textarea, i) => {
-                textarea.addEventListener('input', () => {
-                    getState(i).note = textarea.value;
-                });
-            });
-
-            // ======================================
-            // PILIHAN SESUAI / TIDAK SESUAI
-            // ======================================
-            criteriaContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', () => {
-                    const match = radio.name.match(/criteria\[(\d+)\]/);
-
-                    if (!match) return;
-
-                    const index = Number(match[1]);
-                    getState(index).choice = radio.value;
-
-                    // Jika Tidak sesuai, indeks otomatis 0
-                    // dan kriteria berikutnya terkunci.
-                    updateCriteriaStates();
-                });
-            });
-
-            // ======================================
-            // UPLOAD FILE
-            // ======================================
-            criteriaContainer.querySelectorAll('input[type="file"]').forEach((input, i) => {
-                input.addEventListener('change', () => {
-                    const state = getState(i);
-
-                    state.files = Array.from(input.files || []);
-
-                    updateCriteriaStates();
-                });
-            });
-
-            updateCriteriaStates();
-        }
-
-        // Hindari karakter HTML yang tidak aman
         function escapeHtml(value) {
             return String(value ?? '').replace(/[&<>"']/g, char => ({
                 '&': '&amp;',
@@ -1291,6 +1075,271 @@
                 "'": '&#039;'
             })[char]);
         }
+
+        function formatFileSize(bytes) {
+            if (bytes === null || bytes === undefined) return 'Tersimpan';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // ==========================================
+        // UPDATE TAMPILAN (tanpa render ulang kartu)
+        // ==========================================
+        function update() {
+            const stats = computeLevels(selectedIndex);
+
+            // Jika level aktif ternyata terkunci (mis. verifikator mengubah
+            // kriteria level sebelumnya), pindah ke level terbuka tertinggi.
+            if (!stats[selectedLevel - 1].unlocked) {
+                const open = stats.filter(item => item.unlocked);
+                selectedLevel = open[open.length - 1].level;
+                renderCriteria();
+                return;
+            }
+
+            const sub = subAreas[selectedIndex];
+            const current = stats[selectedLevel - 1];
+            const levelInfo = levels[selectedLevel - 1];
+
+            // Sidebar: nama aktif + skor tiap sub area
+            document.querySelectorAll('.subarea-link').forEach((button, i) => {
+                button.classList.toggle('active', i === selectedIndex);
+
+                const score = subAreaScore(i);
+                const pill = button.querySelector('.score-pill');
+
+                pill.textContent = score.toFixed(1);
+                pill.className = 'score-pill ' + scoreClass(score);
+            });
+
+            // Header
+            document.getElementById('detailTitle').textContent = sub.nama;
+            document.getElementById('breadcrumb').textContent =
+                sub.area + ' · ' + (selectedIndex + 1) + '.1.1';
+            document.getElementById('mainScore').textContent =
+                subAreaScore(selectedIndex).toFixed(1);
+
+            // Tab level
+            levelGrid.innerHTML = levels.map((lv, idx) => {
+                const item = stats[idx];
+                const classes = [
+                    'level-option',
+                    item.level === selectedLevel ? 'active' : '',
+                    item.unlocked ? '' : 'locked'
+                ].join(' ');
+
+                return `
+                    <button type="button" class="${classes}" data-level="${item.level}"
+                        ${item.unlocked ? '' : 'aria-disabled="true"'}>
+                        <strong>${escapeHtml(lv.range)}</strong>
+                        <span class="lv-score">Nilai ${item.score.toFixed(1)}</span>
+                        ${item.unlocked ? '' : '<span class="lv-lock">Terkunci</span>'}
+                    </button>
+                `;
+            }).join('');
+
+            // Judul level
+            document.getElementById('levelCaption').textContent = 'Level ' + selectedLevel;
+            document.getElementById('criteriaTitle').textContent = levelInfo.nama;
+            document.getElementById('criteriaSubtitle').textContent = current.total + ' kriteria';
+            document.getElementById('levelScore').textContent = current.score.toFixed(1);
+
+            // Kartu kriteria
+            criteriaContainer.querySelectorAll('.criterion').forEach(card => {
+                const i = Number(card.dataset.index);
+                const info = current.criteria[i];
+                const state = getState(selectedIndex, selectedLevel, i);
+
+                card.classList.toggle('criterion-locked', !info.unlocked);
+                card.classList.toggle('is-locked', !info.unlocked);
+
+                card.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.disabled = !info.unlocked;
+                });
+                card.querySelector('textarea').disabled = !info.unlocked;
+                card.querySelector('.upload-input').disabled = !info.unlocked;
+                card.querySelector('.file-button').disabled = !info.unlocked;
+
+                const badge = card.querySelector('.index-badge strong');
+                badge.textContent = info.passed ? 1 : 0;
+                badge.classList.toggle('index-positive', info.passed);
+
+                card.querySelector('.locked-message').hidden = info.unlocked;
+
+                card.querySelector('.file-warning').hidden = !(
+                    info.unlocked && state.choice === 'sesuai' && state.files.length === 0
+                );
+            });
+        }
+
+        // ==========================================
+        // DAFTAR FILE PER KRITERIA
+        // ==========================================
+        function renderFileList(card) {
+            const i = Number(card.dataset.index);
+            const state = getState(selectedIndex, selectedLevel, i);
+            const list = card.querySelector('.file-list');
+
+            list.innerHTML = state.files.map((file, fi) => `
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-icon">DOC</div>
+                        <div>
+                            <span class="file-name">${escapeHtml(file.name)}</span>
+                            <span class="file-size">${formatFileSize(file.size)}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="delete-file" data-file="${fi}">Hapus</button>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // RENDER KRITERIA (sub area + level aktif)
+        // ==========================================
+        function renderCriteria() {
+            const criteria = criteriaOf(selectedIndex, selectedLevel);
+
+            if (!criteria.length) {
+                criteriaContainer.innerHTML = `
+                    <div class="empty-criteria">
+                        <strong>Data kriteria belum tersedia</strong><br>
+                        Tambahkan kriteria untuk sub area dan level ini pada
+                        <code>config/maturity.php</code>.
+                    </div>
+                `;
+                update();
+                return;
+            }
+
+            criteriaContainer.innerHTML = criteria.map((item, i) => {
+                const state = getState(selectedIndex, selectedLevel, i);
+
+                return `
+                    <section class="criterion" data-index="${i}">
+                        <div class="criterion-top">
+                            <span class="number">${i + 1}</span>
+                            <div class="criterion-name">${escapeHtml(item.nama)}</div>
+                            <span class="index-badge">
+                                Indeks dokumen
+                                <strong>0</strong>
+                            </span>
+                        </div>
+
+                        <div class="locked-message" hidden>
+                            Indeks otomatis 0 karena kriteria sebelumnya belum terpenuhi.
+                            Selesaikan dan setujui kriteria sebelumnya untuk melanjutkan.
+                        </div>
+
+                        <div class="verification">
+                            <div class="choice">
+                                <label>
+                                    <input type="radio" name="status-${i}" value="sesuai"
+                                        ${state.choice === 'sesuai' ? 'checked' : ''}>
+                                    Sesuai
+                                </label>
+                                <label>
+                                    <input type="radio" name="status-${i}" value="tidak"
+                                        ${state.choice === 'tidak' ? 'checked' : ''}>
+                                    Tidak sesuai
+                                </label>
+                            </div>
+                        </div>
+
+                        <label class="field-label" for="note-${i}">Catatan verifikator</label>
+                        <textarea class="note-input" id="note-${i}" rows="1"
+                            placeholder="Tambahkan catatan hasil pemeriksaan">${escapeHtml(state.note)}</textarea>
+
+                        <div class="upload-box">
+                            <div class="upload-top">
+                                <div class="upload-content">
+                                    <strong>Lampiran bukti</strong>
+                                    <p>Semua jenis file didukung. Anda dapat memilih beberapa file.</p>
+                                </div>
+                                <button type="button" class="file-button">Pilih file</button>
+                            </div>
+                            <input type="file" class="upload-input" multiple
+                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+                            <div class="file-list"></div>
+                        </div>
+
+                        <p class="file-warning" hidden>
+                            Lampiran bukti wajib diunggah agar indeks menjadi 1.
+                        </p>
+                    </section>
+                `;
+            }).join('');
+
+            criteriaContainer.querySelectorAll('.criterion').forEach(renderFileList);
+            update();
+        }
+
+        // ==========================================
+        // EVENT: kartu kriteria (delegasi, dipasang sekali)
+        // ==========================================
+        function cardOf(target) {
+            return target.closest('.criterion');
+        }
+
+        criteriaContainer.addEventListener('input', event => {
+            if (!event.target.matches('textarea')) return;
+
+            const card = cardOf(event.target);
+            getState(selectedIndex, selectedLevel, Number(card.dataset.index)).note = event.target.value;
+        });
+
+        criteriaContainer.addEventListener('change', event => {
+            const card = cardOf(event.target);
+            if (!card) return;
+
+            const i = Number(card.dataset.index);
+            const state = getState(selectedIndex, selectedLevel, i);
+
+            if (event.target.matches('input[type="radio"]')) {
+                state.choice = event.target.value;
+                update();
+                return;
+            }
+
+            if (event.target.matches('.upload-input')) {
+                state.files = [...state.files, ...Array.from(event.target.files || [])];
+                event.target.value = '';
+                renderFileList(card);
+                update();
+            }
+        });
+
+        criteriaContainer.addEventListener('click', event => {
+            const card = cardOf(event.target);
+            if (!card) return;
+
+            if (event.target.matches('.file-button')) {
+                card.querySelector('.upload-input').click();
+                return;
+            }
+
+            if (event.target.matches('.delete-file')) {
+                const i = Number(card.dataset.index);
+                const state = getState(selectedIndex, selectedLevel, i);
+
+                state.files.splice(Number(event.target.dataset.file), 1);
+                renderFileList(card);
+                update();
+            }
+        });
+
+        // ==========================================
+        // PILIH LEVEL (level terkunci diabaikan)
+        // ==========================================
+        levelGrid.addEventListener('click', event => {
+            const button = event.target.closest('.level-option');
+
+            if (!button || button.classList.contains('locked')) return;
+
+            selectedLevel = Number(button.dataset.level);
+            renderCriteria();
+        });
 
         // ==========================================
         // PILIH SUB AREA
@@ -1304,75 +1353,89 @@
         });
 
         // ==========================================
-        // PILIH LEVEL
-        // ==========================================
-        document.querySelectorAll('.level-option').forEach(button => {
-            button.addEventListener('click', () => {
-                if (button.classList.contains('locked')) return;
-
-                selectedLevel = Number(button.dataset.level);
-                renderCriteria();
-            });
-        });
-
-        // ==========================================
         // PINDAH UNIT
         // ==========================================
         unitSelect.addEventListener('change', () => {
             window.location.href =
-                '/admin/unit/' +
-                encodeURIComponent(unitSelect.value) +
-                '/verifikasi';
+                '/admin/unit/' + encodeURIComponent(unitSelect.value) + '/verifikasi';
         });
 
         // ==========================================
-        // RESET PILIHAN
+        // RESET (sub area + level aktif)
         // ==========================================
         document.getElementById('resetButton').addEventListener('click', () => {
-            if (!confirm('Reset pilihan pada halaman ini?')) return;
+            if (!confirm('Reset pilihan pada level ini?')) return;
 
-            const prefix = selectedIndex + '-' + selectedLevel + '-';
-
-            Object.keys(savedChoices).forEach(key => {
-                if (key.startsWith(prefix)) {
-                    delete savedChoices[key];
-                }
+            criteriaOf(selectedIndex, selectedLevel).forEach((item, i) => {
+                savedChoices[stateKey(selectedIndex, selectedLevel, i)] = {
+                    choice: '',
+                    note: '',
+                    files: []
+                };
             });
 
             renderCriteria();
         });
 
         // ==========================================
-        // SUBMIT FORM
+        // SIMPAN (kirim semua level sub area aktif)
         // ==========================================
-        document.getElementById('verificationForm').addEventListener('submit', event => {
+        verificationForm.addEventListener('submit', async event => {
+            event.preventDefault();
+
             const sub = subAreas[selectedIndex];
-            const criteria = sub?.kriteria || [];
+            const saveButton = document.getElementById('saveButton');
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+            const data = new FormData();
 
-            const incomplete = criteria.findIndex((item, index) => {
-                const state = getState(index);
+            data.append('sub_area', sub.nama);
 
-                return !isCriterionPassed(index) || !state.choice;
+            levels.forEach((lv, idx) => {
+                const level = idx + 1;
+
+                criteriaOf(selectedIndex, level).forEach((item, i) => {
+                    const state = savedChoices[stateKey(selectedIndex, level, i)];
+                    if (!state) return;
+
+                    const prefix = 'hasil[' + level + '][' + i + ']';
+
+                    if (state.choice) data.append(prefix + '[status]', state.choice);
+                    if (state.note) data.append(prefix + '[catatan]', state.note);
+
+                    // File yang sudah tersimpan di server tidak dikirim ulang.
+                    state.files
+                        .filter(file => file instanceof File)
+                        .forEach(file => data.append(prefix + '[lampiran][]', file));
+                });
             });
 
-            if (incomplete !== -1) {
-                event.preventDefault();
+            saveButton.disabled = true;
 
-                alert(
-                    'Kriteria nomor ' + (incomplete + 1) +
-                    ' belum memenuhi syarat. Pastikan memilih Sesuai ' +
-                    'dan mengunggah lampiran bukti sebelum menyimpan.'
-                );
+            try {
+                const response = await fetch(verificationForm.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    }
+                });
 
-                return;
+                const result = await response.json().catch(() => ({}));
+
+                alert(response.ok
+                    ? (result.message || 'Verifikasi berhasil disimpan.')
+                    : (result.message || 'Gagal menyimpan verifikasi.'));
+            } catch (error) {
+                alert('Tidak dapat terhubung ke server. Coba lagi.');
+            } finally {
+                saveButton.disabled = false;
             }
-
-            // Form akan dikirim ke route Laravel jika action
-            // dan penyimpanan backend sudah dikonfigurasi.
         });
 
         // Tampilkan halaman pertama
         renderCriteria();
+
     </script>
 
 </body>
