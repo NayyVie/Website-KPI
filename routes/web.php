@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\VerifikasiUnitController;
-
 
 // AUTHENTICATION
 Route::get('/', function () {
@@ -118,51 +118,106 @@ Route::get('/unit/lengkapi-bukti', function () {
     return view('Unit.lengkapiBukti', compact('namaUnit', 'subAreas'));
 })->name('unit.lengkapi');
 
-// BARU: UNIT - RIWAYAT LAPORAN KPI
-Route::get('/unit/riwayat-kpi', function () {
+// UNIT - RIWAYAT LAPORAN KPI (Dengan Logika Filter)
+Route::get('/unit/riwayat-kpi', function (Request $request) {
     $namaUnit = 'Banjarsari';
     
-    // Data dummy (bisa diganti dengan query database nanti)
-    $dokumen = [
+    // Menangkap data dari form filter
+    $filterBulan = $request->query('bulan', 'Semua');
+    $filterTahun = $request->query('tahun', '2026');
+    
+    // Data dummy
+    $semuaDokumen = [
         (object) [
+            'id' => 1,
             'nama_file' => 'Laporan KPI SCM Juni 2026.xlsx',
             'ukuran' => '2.4 MB',
             'tanggal_unggah' => '28 Jun 2026, 14.32',
+            'bulan' => 'Juni',
+            'tahun' => '2026',
             'periode' => 'Juni 2026',
-            'tipe' => 'excel'
+            'tipe' => 'excel',
+            'status' => 'Disetujui'
         ],
         (object) [
+            'id' => 2,
             'nama_file' => 'Laporan KPI SCM Mei 2026.xlsx',
             'ukuran' => '2.1 MB',
             'tanggal_unggah' => '30 Mei 2026, 09.18',
+            'bulan' => 'Mei',
+            'tahun' => '2026',
             'periode' => 'Mei 2026',
-            'tipe' => 'excel'
+            'tipe' => 'excel',
+            'status' => 'Revisi'
         ],
         (object) [
+            'id' => 3,
             'nama_file' => 'Realisasi KPI Logistik April 2026.pdf',
             'ukuran' => '1.8 MB',
             'tanggal_unggah' => '29 Apr 2026, 16.45',
+            'bulan' => 'April',
+            'tahun' => '2026',
             'periode' => 'April 2026',
-            'tipe' => 'pdf'
+            'tipe' => 'pdf',
+            'status' => 'Disetujui'
         ],
         (object) [
+            'id' => 4,
             'nama_file' => 'Laporan KPI SCM Maret 2026.xlsx',
             'ukuran' => '2.2 MB',
             'tanggal_unggah' => '27 Mar 2026, 11.06',
+            'bulan' => 'Maret',
+            'tahun' => '2026',
             'periode' => 'Maret 2026',
-            'tipe' => 'excel'
+            'tipe' => 'excel',
+            'status' => 'Menunggu Review'
         ],
     ];
 
-    return view('Unit.riwayatKpi', compact('namaUnit', 'dokumen'));
+    // Logika menyaring data berdasarkan filter
+    $dokumen = collect($semuaDokumen)->filter(function ($doc) use ($filterBulan, $filterTahun) {
+        $matchBulan = ($filterBulan == 'Semua') || ($doc->bulan == $filterBulan);
+        $matchTahun = ($doc->tahun == $filterTahun);
+        return $matchBulan && $matchTahun;
+    });
+
+    return view('Unit.riwayatKpi', compact('namaUnit', 'dokumen', 'filterBulan', 'filterTahun'));
 })->name('unit.riwayat-kpi');
+
+// UNIT - DETAIL RIWAYAT KPI (Halaman Rincian)
+Route::get('/unit/riwayat-kpi/{id}', function ($id) {
+    $namaUnit = 'Banjarsari';
+    
+    // Data dummy detail
+    $detail = (object) [
+        'id' => $id,
+        'nama_file' => 'Laporan KPI SCM Mei 2026.xlsx',
+        'periode' => 'Mei 2026',
+        'tanggal_unggah' => '30 Mei 2026, 09.18',
+        'status' => 'Revisi',
+        'catatan_admin' => 'Foto bukti untuk sub area Stock Opname kurang jelas, mohon diunggah ulang.',
+        'rincian_skor' => [
+            ['sub_area' => 'Catalogue', 'skor' => 2.2, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Mengelola Permintaan Penyediaan Barang dan Jasa', 'skor' => 3.1, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Setting Minimum Stock', 'skor' => 3.8, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Persediaan dan Perputaran Material', 'skor' => 2.9, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Mengevaluasi dan Membina Kinerja Penyedia', 'skor' => 3.7, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Monitoring, Pengendalian dan Purchase Effectiveness', 'skor' => 2.6, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Implementasi Sistem Kontrak Payung', 'skor' => 1.8, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Pengelolaan Penerimaan dan Pengeluaran Barang', 'skor' => 4.1, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Administrasi & Pengelolaan Barang', 'skor' => 3.4, 'keterangan' => 'Sesuai'],
+            ['sub_area' => 'Stock Opname', 'skor' => 0.0, 'keterangan' => 'Perlu Revisi'],
+        ]
+    ];
+
+    return view('Unit.detailKpi', compact('namaUnit', 'detail'));
+})->name('unit.riwayat-kpi.detail');
 
 
 // ADMIN
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboardAdmin');
 })->name('dashboardAdmin');
-
 
 // ADMIN - VERIFIKASI UNIT (MATURITY LEVEL)
 Route::get('/admin/unit/{unit}/verifikasi', [
