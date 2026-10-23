@@ -118,6 +118,45 @@ Route::get('/unit/lengkapi-bukti', function () {
     return view('Unit.lengkapiBukti', compact('namaUnit', 'subAreas'));
 })->name('unit.lengkapi');
 
+// BARU: UNIT - RIWAYAT LAPORAN KPI
+Route::get('/unit/riwayat-kpi', function () {
+    $namaUnit = 'Banjarsari';
+    
+    // Data dummy (bisa diganti dengan query database nanti)
+    $dokumen = [
+        (object) [
+            'nama_file' => 'Laporan KPI SCM Juni 2026.xlsx',
+            'ukuran' => '2.4 MB',
+            'tanggal_unggah' => '28 Jun 2026, 14.32',
+            'periode' => 'Juni 2026',
+            'tipe' => 'excel'
+        ],
+        (object) [
+            'nama_file' => 'Laporan KPI SCM Mei 2026.xlsx',
+            'ukuran' => '2.1 MB',
+            'tanggal_unggah' => '30 Mei 2026, 09.18',
+            'periode' => 'Mei 2026',
+            'tipe' => 'excel'
+        ],
+        (object) [
+            'nama_file' => 'Realisasi KPI Logistik April 2026.pdf',
+            'ukuran' => '1.8 MB',
+            'tanggal_unggah' => '29 Apr 2026, 16.45',
+            'periode' => 'April 2026',
+            'tipe' => 'pdf'
+        ],
+        (object) [
+            'nama_file' => 'Laporan KPI SCM Maret 2026.xlsx',
+            'ukuran' => '2.2 MB',
+            'tanggal_unggah' => '27 Mar 2026, 11.06',
+            'periode' => 'Maret 2026',
+            'tipe' => 'excel'
+        ],
+    ];
+
+    return view('Unit.riwayatKpi', compact('namaUnit', 'dokumen'));
+})->name('unit.riwayat-kpi');
+
 
 // ADMIN
 Route::get('/dashboardAdmin', function () {

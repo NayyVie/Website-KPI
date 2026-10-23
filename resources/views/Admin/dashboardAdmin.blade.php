@@ -949,6 +949,21 @@
                 transition: none !important;
             }
         }
+    
+        .score-cell {
+            cursor: pointer;
+            transition: transform .12s, box-shadow .12s;
+        }
+
+        .score-cell:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(21, 61, 96, .18);
+        }
+
+        .score-cell:focus-visible {
+            outline: 2px solid #0879b8;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 
@@ -1743,19 +1758,25 @@
 
         let selectedUnit = '';
 
+        // Tombol Verifikasi -> halaman verifikasi maturity level unit
+        const verifikasiBase = @json(url('/admin/unit'));
+
+        function unitSlug(name) {
+            return String(name).toLowerCase().replace(/[^a-z0-9]/g, '');
+        }
+
+        function bukaVerifikasi(unit, subarea) {
+            let url = verifikasiBase + '/' + encodeURIComponent(unitSlug(unit)) + '/verifikasi';
+
+            if (subarea) url += '?sub=' + encodeURIComponent(subarea);
+
+            window.location.href = url;
+        }
+
         document.querySelectorAll('.verify-button')
             .forEach(function(button) {
                 button.addEventListener('click', function() {
-                    selectedUnit = this.dataset.unit;
-
-                    modalDescription.textContent =
-                        'Periksa data unit ' + selectedUnit +
-                        ' sebelum menentukan hasil verifikasi.';
-
-                    verifyForm.reset();
-                    modal.classList.add('show');
-
-                    document.getElementById('verificationStatus').focus();
+                    bukaVerifikasi(this.dataset.unit);
                 });
             });
 
@@ -1841,35 +1862,22 @@
         /* MODAL DETAIL SCORE ML */
         const scoreModal = document.getElementById('scoreDetailModal');
 
-        document.querySelectorAll('.score-cell').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const unit = this.dataset.unit;
-                const area = this.dataset.area;
-                const subarea = this.dataset.subarea;
-                const score = Number(this.dataset.score);
+        /* KLIK SEL SKOR -> BUKA VERIFIKASI MATURITY LEVEL */
+        document.querySelectorAll('.score-cell').forEach(function(cell) {
+            cell.setAttribute('role', 'link');
+            cell.setAttribute('tabindex', '0');
+            cell.title = 'Buka verifikasi maturity level';
 
-                let category = 'Di bawah 2';
+            const open = function() {
+                bukaVerifikasi(cell.dataset.unit, cell.dataset.subarea);
+            };
 
-                if (score >= 3.6) {
-                    category = 'Mencapai nilai 3.6';
-                } else if (score >= 2) {
-                    category = 'Rentang 2–3.59';
+            cell.addEventListener('click', open);
+            cell.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    open();
                 }
-
-                document.getElementById('detailUnit').textContent = unit;
-                document.getElementById('detailArea').textContent = area;
-                document.getElementById('detailScore').textContent =
-                    score.toFixed(1);
-
-                document.getElementById('detailCategory').textContent = category;
-                document.getElementById('detailSubarea').textContent = subarea;
-
-                document.getElementById('detailDescription').textContent =
-                    score >= 3.6 ?
-                    'Nilai sub area ini telah mencapai batas target visual 3.6.' :
-                    'Nilai sub area ini masih di bawah batas target visual 3.6.';
-
-                scoreModal.classList.add('show');
             });
         });
 

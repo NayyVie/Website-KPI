@@ -19,9 +19,14 @@ class VerifikasiUnitController extends Controller
         'surabaya' => 'Surabaya',
         'jakarta' => 'Jakarta',
         'bandung' => 'Bandung',
+        // Unit yang tampil di tabel dashboard admin
+        'ampana' => 'Ampana',
+        'anggrek' => 'Anggrek',
+        'belawan' => 'Belawan',
+        'cilacap' => 'Cilacap',
     ];
 
-    public function show(string $unit)
+    public function show(Request $request, string $unit)
     {
         abort_unless(isset(self::DAFTAR_UNIT[$unit]), 404);
 
@@ -43,6 +48,10 @@ class VerifikasiUnitController extends Controller
             ['area' => 'Gudang',      'nama' => 'Administrasi & Pengelolaan Barang', 'score' => 3.4],
             ['area' => 'Gudang',      'nama' => 'Stock Opname', 'score' => 3.9],
         ];
+
+        // Sub area yang dipilih dari dashboard (?sub=Nama Sub Area)
+        $idxAwal = array_search($request->query('sub'), array_column($daftarSubArea, 'nama'), true);
+        $subAwal = $idxAwal === false ? 0 : $idxAwal;
 
         $subAreas = array_map(function (array $sub) use ($levels, $kriteriaConfig, $hasilTersimpan) {
             $perLevel = $kriteriaConfig[$sub['nama']] ?? [];
@@ -69,6 +78,7 @@ class VerifikasiUnitController extends Controller
             'daftarUnit' => self::DAFTAR_UNIT,
             'levels' => $levels,
             'subAreas' => $subAreas,
+            'subAwal' => $subAwal,
         ]);
     }
 
