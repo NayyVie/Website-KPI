@@ -118,6 +118,90 @@ Route::get('/unit/lengkapi-bukti', function () {
     return view('Unit.lengkapiBukti', compact('namaUnit', 'subAreas'));
 })->name('unit.lengkapi');
 
+// UNIT - PENILAIAN KRITERIA (LEVEL 1 & 2)
+Route::get('/unit/penilaian/{id}', function ($id) {
+    $namaUnit = 'Banjarsari';
+    
+    // Dummy Data Sidebar
+    $subAreas = [
+        ['id' => 1, 'nama' => 'Catalogue', 'score' => 2.2],
+        ['id' => 2, 'nama' => 'Mengelola Permintaan Penyediaan Barang dan Jasa', 'score' => 3.1],
+        ['id' => 3, 'nama' => 'Setting Minimum Stock', 'score' => 3.8],
+        ['id' => 4, 'nama' => 'Persediaan dan Perputaran Material', 'score' => 2.9],
+        ['id' => 5, 'nama' => 'Mengevaluasi dan Membina Kinerja Penyedia', 'score' => 3.7],
+        ['id' => 6, 'nama' => 'Monitoring, Pengendalian dan Purchase Effectiveness', 'score' => 2.6],
+        ['id' => 7, 'nama' => 'Implementasi Sistem Kontrak Payung', 'score' => 1.8],
+        ['id' => 8, 'nama' => 'Pengelolaan Penerimaan dan Pengeluaran Barang', 'score' => 4.1],
+        ['id' => 9, 'nama' => 'Administrasi & Pengelolaan Barang', 'score' => 3.4],
+        ['id' => 10, 'nama' => 'Stock Opname', 'score' => 3.9],
+    ];
+
+    // Dummy Data Penilaian (Sesuai screenshot)
+    $penilaian = (object) [
+        'sub_area' => 'Catalogue',
+        'kode' => 'Inventory · 4.2.3.1',
+        'deskripsi' => 'Memastikan proses, dokumen, dan bukti pelaksanaan sub area memenuhi pedoman maturity level SCM.',
+        'score_ml' => 2.2,
+        'level_saat_ini' => 2,
+        
+        'kriteria_level_1' => [
+            (object) [
+                'no' => 1, 
+                'judul' => 'Data katalog terdokumentasi dalam SIT', 
+                'status' => 'terbuka', 
+                'indeks_dokumen' => 1,
+                'catatan' => 'Data tersi lengkap dan dapat ditelusuri.',
+                'file' => 'dokumen_katalog.pdf'
+            ]
+        ],
+        
+        'kriteria_level_2' => [
+            (object) [
+                'no' => 1, 
+                'judul' => 'Prosedur pengelolaan katalog telah disahkan', 
+                'status' => 'terbuka', 
+                'indeks_dokumen' => 1,
+                'catatan' => 'Data tersi lengkap dan dapat ditelusuri.',
+                'file' => 'prosedur_katalog.pdf'
+            ],
+            (object) [
+                'no' => 2, 
+                'judul' => 'Duplikasi item katalog diidentifikasi', 
+                'status' => 'terkunci',
+                'indeks_dokumen' => 0,
+                'catatan' => '',
+                'file' => null
+            ],
+            (object) [
+                'no' => 3, 
+                'judul' => 'Permintaan item baru melalui proses verifikasi', 
+                'status' => 'terkunci', 
+                'indeks_dokumen' => 0,
+                'catatan' => '',
+                'file' => null
+            ],
+            (object) [
+                'no' => 4, 
+                'judul' => 'Katalog digunakan sebagai referensi permintaan barang', 
+                'status' => 'terkunci', 
+                'indeks_dokumen' => 0,
+                'catatan' => '',
+                'file' => null
+            ],
+            (object) [
+                'no' => 5, 
+                'judul' => 'Hasil pembersihan data katalog terdokumentasi', 
+                'status' => 'terkunci', 
+                'indeks_dokumen' => 0,
+                'catatan' => '',
+                'file' => null
+            ],
+        ]
+    ];
+
+    return view('Unit.penilaianLevel', compact('namaUnit', 'subAreas', 'penilaian'));
+})->name('unit.penilaian');
+
 // UNIT - RIWAYAT LAPORAN KPI (Dengan Logika Filter)
 Route::get('/unit/riwayat-kpi', function (Request $request) {
     $namaUnit = 'Banjarsari';
