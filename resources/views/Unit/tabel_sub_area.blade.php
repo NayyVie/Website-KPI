@@ -27,7 +27,8 @@
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 1) }}" class="btn-action"
+                    <!-- PERBAIKAN: route('unit.lengkapi', ['sub' => 0]) -->
+                    <a href="{{ route('unit.lengkapi', ['sub' => 0]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Lengkapi
                     </a>
@@ -43,7 +44,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 2) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 1]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
@@ -59,7 +60,7 @@
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 3) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 2]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Lengkapi
                     </a>
@@ -75,7 +76,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 4) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 3]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
@@ -91,7 +92,7 @@
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 5) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 4]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Lengkapi
                     </a>
@@ -107,7 +108,7 @@
                 </td>
                 <td><span class="badge-warning">Belum lengkap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 6) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 5]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Lengkapi
                     </a>
@@ -123,7 +124,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 7) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 6]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
@@ -139,7 +140,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 8) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 7]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
@@ -155,7 +156,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 9) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 8]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
@@ -171,7 +172,7 @@
                 </td>
                 <td><span class="badge-success">Siap</span></td>
                 <td>
-                    <a href="{{ route('unit.penilaian', 10) }}" class="btn-action"
+                    <a href="{{ route('unit.lengkapi', ['sub' => 9]) }}" class="btn-action"
                         style="text-decoration:none;display:inline-block;text-align:center;">
                         Tinjau
                     </a>
